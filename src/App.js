@@ -4,7 +4,7 @@ import Home from './views/Home.js';
 import About from './views/About.js';
 import News from './views/News.js';
 
-import './App.scss';
+
 
 class App extends React.Component {
   constructor(props) {
@@ -14,8 +14,13 @@ class App extends React.Component {
 
   render() {
     return (
-      <div class="test">
+      <div className="test">
         <h1>adsfase</h1>
+        <ul>
+          <li>adsfase</li>
+          <li>adsfase</li>
+          <li>adsfase</li>
+        </ul>
         <BrowserRouter>
           <Routes>
             <Route exact path="/" element={<Home />} />

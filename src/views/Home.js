@@ -1,13 +1,21 @@
-import React from 'react';
-
-class Home extends React.Component {
+import React, { Component, Fragment } from 'react';
+import "./aaa.scss";
+import { Button } from 'antd';
+class Home extends Component {
     constructor(props) {
         super(props);
         this.state = {};
     }
 
     render() {
-        return <div>Home</div>
+        return (
+            <Fragment>
+                Home
+                <Button type="primary">Primary</Button>
+            </Fragment>
+
+        );
+
 
     }
 }

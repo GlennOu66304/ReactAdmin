@@ -420,6 +420,7 @@ module.exports = function (webpackEnv) {
                       },
                     },
                   ],
+                  ["import", { libraryName: "antd", style: 'css' }],
                   isEnvDevelopment &&
                   shouldUseReactRefresh &&
                   require.resolve('react-refresh/babel'),
@@ -510,7 +511,15 @@ module.exports = function (webpackEnv) {
                     : isEnvDevelopment,
                 },
                 'sass-loader'
-              ),
+              ).concat({
+                loader: 'sass-resources-loader',
+                options: {
+                  resources: [
+                    path.resolve(__dirname, './../src/styles/main.scss')
+                  ]
+                }
+
+              }),
               // Don't consider CSS imports dead code even if the
               // containing package claims to have no side effects.
               // Remove this when webpack adds a warning or an error for this.
