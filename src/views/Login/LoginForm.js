@@ -1,6 +1,8 @@
 import React, { Component, Fragment } from 'react';
 import { Form, Input, Button, Row, Col } from 'antd';
 import { UserOutlined, UnlockOutlined } from '@ant-design/icons';
+import { validate_password } from '../../utils/validate';
+import { Login } from '../../api/account';
 
 class LoginForm extends Component {
     constructor(props) {
@@ -12,6 +14,10 @@ class LoginForm extends Component {
     }
 
     onFinish = (values) => {
+        Login(values).then(res => {
+            console.log(res)
+        }).catch(err => { })
+
         console.log('Received values of form: ', values);
     }
 
@@ -29,29 +35,40 @@ class LoginForm extends Component {
                         name="normal_login"
                         className="login-form"
                         initialValues={{ remember: true }}
-                        onFinish={() => this.onFinish}
+                        onFinish={this.onFinish}
                     >
                         <Form.Item
                             name="username"
-                            rules={[{ required: true, message: 'Please input your Username!' }]}
+                            rules={[
+                                { required: true, message: '邮箱不能为空' },
+                                { type: "email", message: '邮箱格式不正确' }
+                            ]}
                         >
-                            <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
+                            <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="请输入邮箱" />
                         </Form.Item>
 
                         <Form.Item
                             name="password"
-                            rules={[{ required: true, message: 'Please input your Password!' }]}
+                            rules={
+                                [{ required: true, message: '密码不能为空!' }, {
+                                    pattern: validate_password, message: '请输入大于6位小于20位的数字+密码'
+                                }
+                                ]}
                         >
-                            <Input prefix={<UnlockOutlined className="site-form-item-icon" />} placeholder="Password" />
+                            <Input prefix={<UnlockOutlined className="site-form-item-icon" />} placeholder="请输入密码" />
                         </Form.Item>
 
                         <Form.Item
-                            name="password"
-                            rules={[{ required: true, message: 'Please input your Password!' }]}
+                            name="code"
+                            rules={[
+                                { required: true, message: '验证码不能为空!' }
+                                , { len: 6, message: '请输入6位的验证码' }
+
+                            ]}
                         >
                             <Row gutter={13}>
                                 <Col span={15}>
-                                    <Input prefix={<UnlockOutlined className="site-form-item-icon" />} placeholder="Code" />
+                                    <Input prefix={<UnlockOutlined className="site-form-item-icon" />} placeholder="请输入代码" />
                                 </Col>
                                 <Col span={9}>
                                     <Button type="danger"   > 获取验证码 </Button>
