@@ -8,3 +8,12 @@ export function Login(data) {
     })
 
 }
+
+export function GetCode(data) {
+    return service.request({
+        url: "/getSms/",
+        method: "post",
+        data
+    })
+
+}

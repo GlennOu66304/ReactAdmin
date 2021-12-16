@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { Form, Input, Button, Row, Col } from 'antd';
 import { UserOutlined, UnlockOutlined } from '@ant-design/icons';
+import Code from '../../components/code/index';
 
 class RegisterForm extends Component {
     constructor(props) {
@@ -57,7 +58,7 @@ class RegisterForm extends Component {
                                     <Input prefix={<UnlockOutlined className="site-form-item-icon" />} placeholder="Code" />
                                 </Col>
                                 <Col span={9}>
-                                    <Button type="danger"   > 获取验证码 </Button>
+                                    <Code />
                                 </Col>
                             </Row>
 

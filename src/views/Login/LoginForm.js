@@ -3,11 +3,14 @@ import { Form, Input, Button, Row, Col } from 'antd';
 import { UserOutlined, UnlockOutlined } from '@ant-design/icons';
 import { validate_password } from '../../utils/validate';
 import { Login } from '../../api/account';
-
+import Code from '../../components/code/index';
 class LoginForm extends Component {
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {
+            username: '',
+
+        };
     }
     toggleForm = () => {
         this.props.switchForm('register');
@@ -21,7 +24,16 @@ class LoginForm extends Component {
         console.log('Received values of form: ', values);
     }
 
+    inputChange = (e) => {
+
+        let value = e.target.value
+        this.setState({
+            username: value
+        })
+    }
+
     render() {
+        const { username } = this.state
         return (
             <Fragment>
 
@@ -44,7 +56,7 @@ class LoginForm extends Component {
                                 { type: "email", message: '邮箱格式不正确' }
                             ]}
                         >
-                            <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="请输入邮箱" />
+                            <Input onChange={this.inputChange} value={username} prefix={<UserOutlined className="site-form-item-icon" />} placeholder="请输入邮箱" />
                         </Form.Item>
 
                         <Form.Item
@@ -71,7 +83,7 @@ class LoginForm extends Component {
                                     <Input prefix={<UnlockOutlined className="site-form-item-icon" />} placeholder="请输入代码" />
                                 </Col>
                                 <Col span={9}>
-                                    <Button type="danger"   > 获取验证码 </Button>
+                                    <Code username={username} module={module} />
                                 </Col>
                             </Row>
 
