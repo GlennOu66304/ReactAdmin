@@ -291,11 +291,11 @@ npm install node-sass@4.14.1
 
 [【已解决】Error: Node Sass version 5.0.0 is incompatible with ^4.0.0.](https://blog.csdn.net/qq_39816673/article/details/114831883)
 
-## React Ant design
+## React Ant design. 
 
-手把手撸吗前端：人事系统
-Udemy:滴滴课程
-尚硅谷:React
+手把手撸吗前端：人事系统.   
+Udemy:滴滴课程.  
+尚硅谷:React.     
 
 ## Project Library
 
