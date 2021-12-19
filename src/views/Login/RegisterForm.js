@@ -2,16 +2,65 @@ import React, { Component, Fragment } from 'react';
 import { Form, Input, Button, Row, Col } from 'antd';
 import { UserOutlined, UnlockOutlined } from '@ant-design/icons';
 import Code from '../../components/code/index';
-
+import { validate_pass } from '../../utils/validate';
+import { Register } from '../../api/account';
 class RegisterForm extends Component {
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state =
+        {
+            username: "",
+            password: "",
+            code: "",
+            module: "register"
+        };
     }
     toggleForm = () => {
         this.props.switchForm('login');
     }
+
+    onFinish = (values) => {
+        const requestData = {
+            username: this.state.username,
+            password: this.state.password,
+            code: this.state.code
+        }
+        console.log(requestData)
+        return false;
+        Register().then(res => {
+
+        }).catch(err => { })
+
+
+    }
+
+
+    inputChangeUsername = (e) => {
+
+        let value = e.target.value
+        this.setState({
+            username: value
+        })
+    }
+
+    inputChangePassword = (e) => {
+
+        let value = e.target.value
+        this.setState({
+            password: value
+        })
+    }
+
+    inputChangeCode = (e) => {
+
+        let value = e.target.value
+        this.setState({
+            code: value
+        })
+    }
+
     render() {
+        const { username, module } = this.state
         return (
             <Fragment>
 
@@ -26,39 +75,66 @@ class RegisterForm extends Component {
                         name="normal_login"
                         className="login-form"
                         initialValues={{ remember: true }}
-                        onFinish={() => this.onFinish}
+                        onFinish={this.onFinish}
                     >
                         <Form.Item
                             name="username"
-                            rules={[{ required: true, message: 'Please input your Username!' }]}
+                            rules={[{ required: true, message: '邮箱不能为空!' },
+                            { type: "email", message: '邮箱格式不正确' }]}
                         >
-                            <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
+                            <Input onChange={this.inputChangeUsername} prefix={<UserOutlined className="site-form-item-icon" />} placeholder="请输入邮箱" />
                         </Form.Item>
 
                         <Form.Item
                             name="password"
-                            rules={[{ required: true, message: 'Please input your Password!' }]}
-                        >
-                            <Input prefix={<UnlockOutlined className="site-form-item-icon" />} placeholder="Password" />
+                            rules={[{ required: true, message: '密码不能为空!' },
+                            ({ getFieldValue }) => ({
+
+                                validator(role, value) {
+                                    let passwords_value = getFieldValue("passwords")
+
+                                    if (!validate_pass(value)) {
+                                        return Promise.reject("请输入大于6位小于20位数字+字母")
+                                    }
+                                    if (passwords_value && value !== passwords_value) {
+                                        return Promise.reject("两次输入密码不一致")
+                                    }
+                                    return Promise.resolve()
+
+                                }
+                            })
+                            ]}>
+                            <Input onChange={this.inputChangePassword} type="password" prefix={<UnlockOutlined className="site-form-item-icon" />} placeholder="请输入密码" />
                         </Form.Item>
 
                         <Form.Item
-                            name="password"
-                            rules={[{ required: true, message: 'Please input your Password!' }]}
+                            name="passwords"
+                            rules={[{ required: true, message: '再次确认密码不能为空' },
+                            ({ getFieldValue }) => ({
+                                validator(role, value) {
+                                    // console.log(getFieldValue("password"))
+                                    if (value !== getFieldValue("password")) {
+                                        return Promise.reject("两次输入密码不一致")
+                                    }
+                                    return Promise.resolve()
+
+                                }
+                            })
+                            ]}
                         >
-                            <Input prefix={<UnlockOutlined className="site-form-item-icon" />} placeholder="Password" />
+                            <Input type="password" prefix={<UnlockOutlined className="site-form-item-icon" />} placeholder="请再次输入密码" />
                         </Form.Item>
 
                         <Form.Item
-                            name="password"
-                            rules={[{ required: true, message: 'Please input your Password!' }]}
+                            name="code"
+                            rules={[{ required: true, message: '请输入长度为6位的验证码!', len: 6 }]}
                         >
                             <Row gutter={13}>
                                 <Col span={15}>
-                                    <Input prefix={<UnlockOutlined className="site-form-item-icon" />} placeholder="Code" />
+                                    <Input onChange={this.inputChangeCode} prefix={<UnlockOutlined className="site-form-item-icon" />} placeholder="验证码" />
                                 </Col>
                                 <Col span={9}>
-                                    <Code />
+                                    <Code username={username} module={module} />
                                 </Col>
                             </Row>
 
@@ -69,7 +145,7 @@ class RegisterForm extends Component {
 
                         <Form.Item>
                             <Button type="primary" htmlType="submit" className="login-form-button" block>
-                                登录
+                                注册
                             </Button>
 
                         </Form.Item>
