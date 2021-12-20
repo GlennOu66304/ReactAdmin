@@ -4,12 +4,16 @@ import { UserOutlined, UnlockOutlined } from '@ant-design/icons';
 import { validate_password } from '../../utils/validate';
 import { Login } from '../../api/account';
 import Code from '../../components/code/index';
+import CryptoJs from 'crypto-js'
 class LoginForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
             username: '',
-            module: 'login'
+            password: "",
+            code: "",
+            module: 'login',
+            loading: false
 
         };
     }
@@ -18,14 +22,26 @@ class LoginForm extends Component {
     }
 
     onFinish = (values) => {
-        Login(values).then(res => {
-            console.log(res)
-        }).catch(err => { })
-
-        console.log('Received values of form: ', values);
+        const requestData = {
+            username: this.state.username,
+            password: CryptoJs.MD5(this.state.password).toString(),
+            code: this.state.code
+        }
+        this.setState({
+            loading: true
+        })
+        Login(requestData).then(res => {
+            this.setState({
+                loading: true
+            })
+        }).catch(err => {
+            this.setState({
+                loading: false
+            })
+        })
     }
 
-    inputChange = (e) => {
+    inputChangeUsername = (e) => {
 
         let value = e.target.value
         this.setState({
@@ -33,8 +49,23 @@ class LoginForm extends Component {
         })
     }
 
+    inputChangePassword = (e) => {
+
+        let value = e.target.value
+        this.setState({
+            password: value
+        })
+    }
+    inputChangeCode = (e) => {
+
+        let value = e.target.value
+        this.setState({
+            code: value
+        })
+    }
+
     render() {
-        const { username } = this.state
+        const { username, loading } = this.state
         return (
             <Fragment>
 
@@ -57,7 +88,7 @@ class LoginForm extends Component {
                                 { type: "email", message: '邮箱格式不正确' }
                             ]}
                         >
-                            <Input onChange={this.inputChange} value={username} prefix={<UserOutlined className="site-form-item-icon" />} placeholder="请输入邮箱" />
+                            <Input onChange={this.inputChangeUsername} value={username} prefix={<UserOutlined className="site-form-item-icon" />} placeholder="请输入邮箱" />
                         </Form.Item>
 
                         <Form.Item
@@ -68,7 +99,7 @@ class LoginForm extends Component {
                                 }
                                 ]}
                         >
-                            <Input prefix={<UnlockOutlined className="site-form-item-icon" />} placeholder="请输入密码" />
+                            <Input onChange={this.inputChangePassword} prefix={<UnlockOutlined className="site-form-item-icon" />} placeholder="请输入密码" />
                         </Form.Item>
 
                         <Form.Item
@@ -81,7 +112,7 @@ class LoginForm extends Component {
                         >
                             <Row gutter={13}>
                                 <Col span={15}>
-                                    <Input prefix={<UnlockOutlined className="site-form-item-icon" />} placeholder="请输入代码" />
+                                    <Input onChange={this.inputChangeCode} prefix={<UnlockOutlined className="site-form-item-icon" />} placeholder="请输入代码" />
                                 </Col>
                                 <Col span={9}>
                                     <Code username={username} module={module} />
@@ -94,7 +125,7 @@ class LoginForm extends Component {
 
 
                         <Form.Item>
-                            <Button type="primary" htmlType="submit" className="login-form-button" block>
+                            <Button loading={loading} type="primary" htmlType="submit" className="login-form-button" block>
                                 登录
                             </Button>
 
