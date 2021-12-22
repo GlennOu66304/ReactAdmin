@@ -1,1 +1,10 @@
+$color: blue;
+$fs12: 12px;
 
+@mixin webkit-box-shadow($attr, $value) {
+  -webkit-#{$attr}: $value;
+  -moz-#{$attr}: $value;
+  -o-#{$attr}: $value;
+  -ms-#{$attr}: $value;
+  #{$attr}: $value;
+}

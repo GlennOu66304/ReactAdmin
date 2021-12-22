@@ -5,6 +5,7 @@ import { validate_password } from '../../utils/validate';
 import { Login } from '../../api/account';
 import Code from '../../components/code/index';
 import CryptoJs from 'crypto-js'
+import { withRouter } from 'react-router-dom';
 class LoginForm extends Component {
     constructor(props) {
         super(props);
@@ -34,6 +35,7 @@ class LoginForm extends Component {
             this.setState({
                 loading: true
             })
+            this.props.history.push('/index')
         }).catch(err => {
             this.setState({
                 loading: false
@@ -141,4 +143,4 @@ class LoginForm extends Component {
     }
 }
 
-export default LoginForm;
+export default withRouter(LoginForm);
