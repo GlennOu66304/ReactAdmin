@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
 import Login from './views/Login/Index';
 import Index from './views/index/Index';
+import PrivateRouter from './components/privateRouter/index';
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -12,8 +13,8 @@ class App extends React.Component {
     return (
       <BrowserRouter>
         <Switch>
-          <Route exact component={Login} path="/" />
-          <Route exact component={Index} path="/index" />
+          <Route exact render={() => <Login />} path="/" />
+          <PrivateRouter exact component={Index} path="/index" />
         </Switch>
 
       </BrowserRouter>

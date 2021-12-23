@@ -6,6 +6,7 @@ import { Login } from '../../api/account';
 import Code from '../../components/code/index';
 import CryptoJs from 'crypto-js'
 import { withRouter } from 'react-router-dom';
+import { setToken } from '../../utils/session';
 class LoginForm extends Component {
     constructor(props) {
         super(props);
@@ -31,10 +32,14 @@ class LoginForm extends Component {
         this.setState({
             loading: true
         })
+
         Login(requestData).then(res => {
             this.setState({
-                loading: true
+                loading: false
             })
+            const data = res.data.data
+            setToken(data.token)
+            // console.log(res.data)
             this.props.history.push('/index')
         }).catch(err => {
             this.setState({
