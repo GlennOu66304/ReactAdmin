@@ -2,11 +2,26 @@ import React, { Component, Fragment } from 'react'
 import { Menu } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import router from '../../router/router'
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 const { SubMenu } = Menu;
 
 
-export default class AsideMenu extends Component {
+class AsideMenu extends Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            // selectedKeys: ['/index/user/add'],
+            // openKeys: ['/index/user'],
+        }
+    }
+    // componentDidMount() {
+    //     const pathName = this.props.location.pathname;
+    //     const menuKey = pathName.split('/').slice(0, 3).join('/');
+    //     this.setState({
+    //         selectedKeys: [pathName],
+    //         openKeys: [menuKey],
+    //     })
+
 
     renderMenu = ({ title, key }) => {
         return (
@@ -34,14 +49,17 @@ export default class AsideMenu extends Component {
 
 
     }
+
     render() {
+        // const { selectedKeys, openKeys } = this.state
         return (
             <Fragment>
                 <Menu
                     theme='dark'
                     mode="inline"
-                    defaultSelectedKeys={['1']}
-                    defaultOpenKeys={['sub1']}
+                    // selectedKeys={selectedKeys}
+                    // openKeys={openKeys}
+                    style={{ height: '100%', borderRight: 0 }}
                 >
                     {
                         router && router.map(firstItem => {
@@ -52,8 +70,9 @@ export default class AsideMenu extends Component {
                         })
                     }
                 </Menu>
-
             </Fragment>
         )
     }
 }
+
+export default withRouter(AsideMenu)
