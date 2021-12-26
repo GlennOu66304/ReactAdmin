@@ -1,5 +1,5 @@
 import axios from 'axios';
-
+import { getToken, getUsername } from './cookie.js'
 const service = axios.create({
     // baseURL: process.env.REACT_APP_API,
     baseURL: process.env.REACT_APP_API,
@@ -9,8 +9,8 @@ const service = axios.create({
 // Add a request interceptor
 service.interceptors.request.use(function (config) {
     // Do something before request is sent
-    console.log(process.env.NODE_ENV);
-    console.log(process.env.REACT_APP_API);
+    config.headers["Token"] = getToken();
+    config.headers["Username"] = getUsername();
     return config;
 }, function (error) {
     // Do something with request error

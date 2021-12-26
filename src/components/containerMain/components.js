@@ -12,6 +12,7 @@ files.keys().map(key => {
     jsonObj.path = path
     jsonObj.component = component
     Components.push(jsonObj)
+    return true
 })
 
 export default Components

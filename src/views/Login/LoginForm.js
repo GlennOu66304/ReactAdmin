@@ -6,7 +6,7 @@ import { Login } from '../../api/account';
 import Code from '../../components/code/index';
 import CryptoJs from 'crypto-js'
 import { withRouter } from 'react-router-dom';
-import { setToken } from '../../utils/session';
+import { setToken, setUsername } from '../../utils/cookie';
 class LoginForm extends Component {
     constructor(props) {
         super(props);
@@ -39,6 +39,7 @@ class LoginForm extends Component {
             })
             const data = res.data.data
             setToken(data.token)
+            setUsername(data.username)
             // console.log(res.data)
             this.props.history.push('/index')
         }).catch(err => {
