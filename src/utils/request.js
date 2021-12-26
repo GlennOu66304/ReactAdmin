@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { getToken, getUsername } from './cookie.js'
+import { message } from 'antd';
 const service = axios.create({
     // baseURL: process.env.REACT_APP_API,
     baseURL: process.env.REACT_APP_API,
@@ -21,11 +22,25 @@ service.interceptors.request.use(function (config) {
 service.interceptors.response.use(function (response) {
     // Any status code that lie within the range of 2xx cause this function to trigger
     // Do something with response data
-    return response;
+
+    const data = response.data;
+    if (data.resCode !== 0) {
+        message.info(data.message);
+        if (data.resCode === 1023) {
+            alert(111)
+        }
+        return Promise.reject(data);
+
+    } else {
+        return response
+
+    }
+
 }, function (error) {
     // Any status codes that falls outside the range of 2xx cause this function to trigger
     // Do something with response error
-    return Promise.reject(error);
+    const data = error.request
+    return Promise.reject(data);
 });
 
 export default service;
