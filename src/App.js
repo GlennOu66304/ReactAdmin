@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
-import Login from './views/login/index';
+import Login from './views/login/Index';
 import Index from './views/index/Index';
 import PrivateRouter from './components/privateRouter/index';
 class App extends React.Component {

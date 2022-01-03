@@ -64,6 +64,7 @@
     "react-dom": "^17.0.2",
     "react-refresh": "^0.8.3",
     "react-router-dom": "5.0.0",
+    "react-scripts": "^5.0.0",
     "resolve": "1.18.1",
     "resolve-url-loader": "^3.1.2",
     "sass-loader": "8.0.0",
@@ -81,9 +82,9 @@
   "scripts": {
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
-    "test": "node scripts/test.js",
+    "test": "node scripts/test.js", 
     "dev": "dotenv -e .local.single.env -e .env.dev react-app-rewired start",
-    "build.dev": "dotenv -e  .env.development react-app-rewired build",
+    "build:dev": "dotenv -e .env.development react-app-rewired build",
     "build:test": "dotenv -e .env.test react-app-rewired build",
     "build:pro": "dotenv -e .env.production react-app-rewired build"
   },
@@ -163,6 +164,8 @@
     ]
   },
   "devDependencies": {
-    "sass-resources-loader": "^2.2.4"
+    "react-app-rewired": "^2.1.11",
+    "sass-resources-loader": "^2.2.4",
+    "dotenv-cli": "^4.1.1"
   }
 }

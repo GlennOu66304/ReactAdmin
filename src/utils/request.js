@@ -3,7 +3,7 @@ import { getToken, getUsername } from './cookie.js'
 import { message } from 'antd';
 const service = axios.create({
     // baseURL: process.env.REACT_APP_API,
-    baseURL: process.env.REACT_APP_API,
+    baseURL: "/devApi",
     timeout: 5000,
 });
 

@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import { Form, Input, Button, Table, Switch, message } from 'antd';
-import { GetList, Delete } from '@api/department'
+import { GetList, Delete } from '../../api/department'
 export default class Department extends Component {
     constructor(props) {
         super(props);
