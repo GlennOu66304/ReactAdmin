@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Switch, Route } from 'react-router-dom'
+import { HashRouter, Switch, Route } from 'react-router-dom'
 import Login from './views/login/Index';
 import Index from './views/index/Index';
 import PrivateRouter from './components/privateRouter/index';
@@ -11,13 +11,13 @@ class App extends React.Component {
 
   render() {
     return (
-      <BrowserRouter>
+      <HashRouter>
         <Switch>
           <Route exact render={() => <Login />} path="/" />
           <PrivateRouter component={Index} path="/index" />
         </Switch>
 
-      </BrowserRouter>
+      </HashRouter>
     )
   }
 }
