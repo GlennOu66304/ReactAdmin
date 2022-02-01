@@ -1,7 +1,9 @@
 import React, { Component, Fragment } from 'react'
-import { Form, Input, Button, Table, Switch, message, Modal } from 'antd';
+import { Form, Input, Button, Switch, message, Modal } from 'antd';
 import { GetList, Delete, Change } from '../../api/department'
 import { Link } from "react-router-dom";
+import TableData from '../../components/tableData';
+import requestUrl from '../../api/requestUrl';
 export default class Department extends Component {
     constructor(props) {
         super(props);
@@ -12,45 +14,49 @@ export default class Department extends Component {
             id: "",
             flag: true,
             loadingTable: false,
+            tableConfigs: {
+                url: requestUrl.departmentList,
+                checkbox: true,
+                method: 'post',
+                thead: [
 
+                    { title: "部门名称", dataIndex: "name", key: "name" },
+                    {
+                        title: "禁启用",
+                        dataIndex: "status",
+                        key: "status",
+                        render: (text, rowData) => {
 
+                            return <Switch defaultChecked={rowData.status} checkedChildren="开启" unCheckedChildren="关闭"
+                                //JavaScript Comparison Operators ===
+                                onChange={this.onChange(rowData)} loading={rowData.id === this.state.id} />
 
-            columns: [
-                { title: "部门名称", dataIndex: "name", key: "name" },
-                {
-                    title: "禁启用",
-                    dataIndex: "status",
-                    key: "status",
-                    render: (text, rowData) => {
+                        }
+                    },
+                    { title: "人员数量", dataIndex: "number", key: "number" },
+                    {
+                        title: "操作",
+                        dataIndex: "operation",
+                        key: "operation", width: 215,
+                        render: (text, rowData) => {
+                            return (
+                                <div className="inline-button">
+                                    {/* 1.Query Method */}
+                                    {/* <Button type="primary"><Link to={{ pathname: "/index/department/add", query: { id: rowData.id } }}>编辑</Link></Button> */}
+                                    {/* 2.router link method:paramas way*/}
+                                    {/* <Button type="primary"><Link to={'/index/department/add?id=' + rowData.id}>编辑</Link></Button> */}
+                                    {/* 3.State way to get the data */}
+                                    <Button type="primary"><Link to={{ pathname: "/index/department/add", state: { id: rowData.id } }}>编辑</Link></Button>
+                                    <Button type="danger" onClick={() => this.onHandleDelete(rowData.id)}>删除</Button>
+                                </div>
+                            )
 
-                        return <Switch defaultChecked={rowData.status} checkedChildren="开启" unCheckedChildren="关闭"
-                            //JavaScript Comparison Operators ===
-                            onChange={this.onChange(rowData)} loading={rowData.id === this.state.id} />
+                        }
 
                     }
-                },
-                { title: "人员数量", dataIndex: "number", key: "number" },
-                {
-                    title: "操作",
-                    dataIndex: "operation",
-                    key: "operation", width: 215,
-                    render: (text, rowData) => {
-                        return (
-                            <div className="inline-button">
-                                {/* 1.Query Method */}
-                                {/* <Button type="primary"><Link to={{ pathname: "/index/department/add", query: { id: rowData.id } }}>编辑</Link></Button> */}
-                                {/* 2.router link method:paramas way*/}
-                                {/* <Button type="primary"><Link to={'/index/department/add?id=' + rowData.id}>编辑</Link></Button> */}
-                                {/* 3.State way to get the data */}
-                                <Button type="primary"><Link to={{ pathname: "/index/department/add", state: { id: rowData.id } }}>编辑</Link></Button>
-                                <Button type="danger" onClick={() => this.onHandleDelete(rowData.id)}>删除</Button>
-                            </div>
-                        )
+                ],
 
-                    }
-
-                }
-            ],
+            },
             pageNumber: 1,
             pageSize: 10,
             selectedRowKeys: []
@@ -168,10 +174,7 @@ export default class Department extends Component {
 
     }
     render() {
-        const { columns, data } = this.state
-        const rowSelection = {
-            onChange: this.onCheckbox
-        }
+
         return (
             <Fragment>
                 <Form layout="inline" onFinish={this.onFinish}>
@@ -183,8 +186,10 @@ export default class Department extends Component {
                     </Form.Item>
                 </Form>
                 <div className="table-wrap">
-                    <Table loading={this.state.loadingTable} rowSelection={rowSelection} rowKey='id' columns={columns} dataSource={data} bordered></Table>
+                    <TableData config={this.state.tableConfigs} />
+                    {/* <Table loading={this.state.loadingTable} rowSelection={rowSelection} rowKey='id' columns={columns} dataSource={data} bordered></Table> */}
                     <Button type="primary" onClick={() => this.onHandleDelete()}>批量删除</Button>
+
                     <Modal
                         title="提示"
                         visible={this.state.visible}
