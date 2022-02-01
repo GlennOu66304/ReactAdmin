@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Form, Input, Button, InputNumber, Radio, message } from 'antd';
-import { departmentApi } from '../../api/department';
+import { departmentApi, Detailed, Edit } from '../../api/department';
 export default class DepartmentAdd extends Component {
     constructor(props) {
         super(props)
@@ -9,10 +9,42 @@ export default class DepartmentAdd extends Component {
             formLayout: {
                 labelCol: { span: 2 },
                 wrapperCol: { span: 20 }
-            }
+            },
+            id: ''
         }
     }
+    componentWillMount() {
+        if (this.props.location.state) {
+            this.setState({
+                id: this.props.location.state.id
+            })
+        }
+
+    }
+
+    componentDidMount() {
+        console.log(this.state)
+        this.getDetailed()
+        // console.log(this.props.location.state.id)
+    }
+
+    //load the id data from the server
+
+    getDetailed = () => {
+        //check if saved item
+        console.log(this.props.location)
+        if (!this.props.location.state) { return false }
+        Detailed({ id: this.state.id }).then(res => {
+            // message.info(res.data.message)
+
+            //add the inintial value to the form sections
+            this.refs.form.setFieldsValue(res.data.data)
+        })
+    }
+
+
     onSubmit = (value) => {
+
         if (!value.name) {
             message.error("请输入部门名称");
             return false;
@@ -23,7 +55,13 @@ export default class DepartmentAdd extends Component {
             return false;
         }
 
+
         if (!value.content) {
+            message.error("请输入部门描述");
+            return false;
+        }
+
+        if (!value.status) {
             message.error("请输入部门描述");
             return false;
         }
@@ -31,8 +69,12 @@ export default class DepartmentAdd extends Component {
         this.setState({
             loading: true
         })
+        //   use the tenary to decide whether to add or edit
+        this.state.id ? this.onHandleEdit(value) : this.onHandleAdd(value)
 
+    }
 
+    onHandleAdd = (value) => {
         departmentApi(value).then(res => {
             const data = res.data
             message.info(data.message)
@@ -46,8 +88,29 @@ export default class DepartmentAdd extends Component {
             })
         })
 
+    }
+
+
+
+    onHandleEdit = (value) => {
+        const requestData = value
+        //Add Key-Value Pairs to JavaScript Objects
+        requestData.id = this.state.id
+        Edit(requestData).then(res => {
+            const data = res.data
+            message.info(data.message)
+            this.setState({
+                loading: false
+            })
+
+        }).catch(err => {
+            this.setState({
+                loading: false
+            })
+        })
 
     }
+
 
     render() {
         return (
@@ -61,7 +124,7 @@ export default class DepartmentAdd extends Component {
                 </Form.Item>
 
                 <Form.Item label="禁启用" name="status" >
-                    <Radio.Group defaultValue={true}>
+                    <Radio.Group >
                         <Radio value={false}>禁用</Radio>
                         <Radio value={true}>启用</Radio>
                     </Radio.Group>
