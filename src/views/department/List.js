@@ -4,6 +4,7 @@ import { GetList, Delete, Change } from '../../api/department'
 import { Link } from "react-router-dom";
 import TableData from '../../components/tableData';
 import requestUrl from '../../api/requestUrl';
+
 export default class Department extends Component {
     constructor(props) {
         super(props);
@@ -18,6 +19,7 @@ export default class Department extends Component {
                 url: requestUrl.departmentList,
                 checkbox: true,
                 method: 'post',
+                // batchButton: false,
                 thead: [
 
                     { title: "部门名称", dataIndex: "name", key: "name" },
@@ -27,9 +29,9 @@ export default class Department extends Component {
                         key: "status",
                         render: (text, rowData) => {
 
-                            return <Switch defaultChecked={rowData.status} checkedChildren="开启" unCheckedChildren="关闭"
-                                //JavaScript Comparison Operators ===
-                                onChange={this.onChange(rowData)} loading={rowData.id === this.state.id} />
+                            return <Switch defaultChecked={rowData.status} checkedChildren="开启" unCheckedChildren="关闭" />
+                            //JavaScript Comparison Operators ===
+                            // onChange={this.onChange(rowData)} loading={rowData.id === this.state.id} />
 
                         }
                     },
@@ -118,7 +120,7 @@ export default class Department extends Component {
             id = this.state.selectedRowKeys.join()
 
         }
-        console.log(id)
+
         this.setState({ visible: true, id })
         console.log(typeof (this.state.id))
 
@@ -186,9 +188,8 @@ export default class Department extends Component {
                     </Form.Item>
                 </Form>
                 <div className="table-wrap">
-                    <TableData config={this.state.tableConfigs} />
+                    <TableData batchButton={true} config={this.state.tableConfigs} />
                     {/* <Table loading={this.state.loadingTable} rowSelection={rowSelection} rowKey='id' columns={columns} dataSource={data} bordered></Table> */}
-                    <Button type="primary" onClick={() => this.onHandleDelete()}>批量删除</Button>
 
                     <Modal
                         title="提示"
@@ -206,3 +207,4 @@ export default class Department extends Component {
         )
     }
 }
+

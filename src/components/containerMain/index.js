@@ -3,7 +3,7 @@ import { Switch } from 'react-router-dom'
 import PrivateRouter from '../privateRouter/index';
 
 import Components from './components';
-console.log(Components)
+
 export default class ContanerMain extends Component {
 
 
