@@ -1,17 +1,16 @@
 import React, { Component, Fragment } from 'react'
-import { Form, Input, Button, Switch, message, Modal } from 'antd';
-import { GetList, Delete, Change } from '../../api/department'
+import { Button, Switch, message } from 'antd';
+import { GetList, Change } from '../../api/department'
 import { Link } from "react-router-dom";
 import TableData from '../../components/tableData';
 import requestUrl from '../../api/requestUrl';
-
 export default class Department extends Component {
     constructor(props) {
         super(props);
         this.state = {
             keyWork: '',
             data: [],
-            visible: false,
+            visible: true,
             id: "",
             flag: true,
             loadingTable: false,
@@ -49,7 +48,7 @@ export default class Department extends Component {
                                     {/* <Button type="primary"><Link to={'/index/department/add?id=' + rowData.id}>编辑</Link></Button> */}
                                     {/* 3.State way to get the data */}
                                     <Button type="primary"><Link to={{ pathname: "/index/department/add", state: { id: rowData.id } }}>编辑</Link></Button>
-                                    <Button type="danger" onClick={() => this.onHandleDelete(rowData.id)}>删除</Button>
+                                    <Button type="danger" onClick={() => this.Delete(rowData.id)}>删除</Button>
                                 </div>
                             )
 
@@ -94,60 +93,17 @@ export default class Department extends Component {
         })
     }
 
-    onFinish = (value) => {
-        //Search loading logic finish
-        if (this.state.loadingTable) {
-            return false
-        }
-
-        this.setState({
-            keyWork: value.username,
-            pageNumber: 1,
-            pageSize: 10,
-
-        })
-        this.loadData()
-
+    getChildRef = (ref) => {
+        this.TableData = ref; // 存储子组件
     }
 
-    // click this delete button, then show the pop up window
-    onHandleDelete = (id) => {
-        // console.log(this.state.selectedRowKeys)
-        // bulk delete check conditions
-        if (!id) {
-            if (this.state.selectedRowKeys.length === 0) { return false }
-            // string join
-            id = this.state.selectedRowKeys.join()
 
-        }
-
-        this.setState({ visible: true, id })
-        console.log(typeof (this.state.id))
-
+    Delete = (id) => {
+        this.TableData.onHandleDelete(id)
     }
 
-    // close the window
-    handleCancel = () => {
-        this.setState({
-            visible: false,
-        })
-    }
 
-    //confirm the cancel
 
-    handleOk = () => {
-
-        Delete({ id: this.state.id }).then(res => {
-            message.info(res.data.message)
-
-            this.setState({
-                visible: false,
-                selectedRowKeys: [],
-                id: ""
-            })
-            this.loadData()
-        })
-    }
     // status changes
     onChange = (data) => {
         if (!data.status) { return false }
@@ -175,34 +131,13 @@ export default class Department extends Component {
         })
 
     }
+
+
     render() {
 
         return (
             <Fragment>
-                <Form layout="inline" onFinish={this.onFinish}>
-                    <Form.Item label="部门名称" name="username" >
-                        <Input placeholder="请输入部门名称" />
-                    </Form.Item>
-                    <Form.Item  >
-                        <Button loading={this.loadingTable} type="primary" htmlType="submit">搜索</Button>
-                    </Form.Item>
-                </Form>
-                <div className="table-wrap">
-                    <TableData batchButton={true} config={this.state.tableConfigs} />
-                    {/* <Table loading={this.state.loadingTable} rowSelection={rowSelection} rowKey='id' columns={columns} dataSource={data} bordered></Table> */}
-
-                    <Modal
-                        title="提示"
-                        visible={this.state.visible}
-                        okText="确认"
-                        cancelText="取消"
-                        onCancel={this.handleCancel}
-                        onOk={this.handleOk}
-                    >
-                        <p>确定删除此选项？<strong>删除后将无法修复</strong></p>
-
-                    </Modal>
-                </div>
+                <TableData onRef={this.getChildRef} config={this.state.tableConfigs} />
             </Fragment>
         )
     }

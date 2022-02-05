@@ -1,6 +1,7 @@
-import React, { Component } from 'react'
-import { Form, Input, Button, InputNumber, Radio, message } from 'antd';
+import React, { Component, Fragment } from 'react'
+import { message } from 'antd';
 import { departmentApi, Detailed, Edit } from '../../api/department';
+import FormComponent from '../../components/form/index';
 export default class DepartmentAdd extends Component {
     constructor(props) {
         super(props)
@@ -10,6 +11,34 @@ export default class DepartmentAdd extends Component {
                 labelCol: { span: 2 },
                 wrapperCol: { span: 20 }
             },
+            formItem: [
+                //rule method1
+                // { type: "Input", label: "部门名称", name: "name", rules: [{ required: 'true', message: '请输入部门名称' }], },
+                //Rule Method2
+                { type: "Input", label: "部门名称", name: "name", required: true, rules: [{}, {}] },
+                { type: "Select", label: "部门名称aaa", name: "name", required: true, rules: [{}, {}] },
+                {
+                    type: "InputNumber",
+                    label: "人员数量",
+                    name: "number",
+                    required: true,
+                    min: 0,
+                    max: 100,
+                    style: { width: "200px" },
+                    placeholder: "请输入人员数量"
+                },
+                {
+                    type: "Radio",
+                    label: "禁启用",
+                    name: "statue",
+                    required: true,
+                    options: [
+                        { label: "禁用", value: false },
+                        { label: "启用", value: true },
+                    ]
+                },
+
+                { type: "Input", label: "描述", name: "content", }],
             id: ''
         }
     }
@@ -23,7 +52,7 @@ export default class DepartmentAdd extends Component {
     }
 
     componentDidMount() {
-        console.log(this.state)
+        // console.log(this.state)
         this.getDetailed()
         // console.log(this.props.location.state.id)
     }
@@ -32,7 +61,7 @@ export default class DepartmentAdd extends Component {
 
     getDetailed = () => {
         //check if saved item
-        console.log(this.props.location)
+        // console.log(this.props.location)
         if (!this.props.location.state) { return false }
         Detailed({ id: this.state.id }).then(res => {
             // message.info(res.data.message)
@@ -114,31 +143,40 @@ export default class DepartmentAdd extends Component {
 
     render() {
         return (
-            <Form ref="form" onFinish={this.onSubmit} initialValues={{ status: true, number: 0 }} {...this.state.formLayout}>
-                <Form.Item label="部门名称" name="name" >
-                    <Input />
-                </Form.Item>
+            <Fragment>
+                <FormComponent formItem={this.state.formItem} />
 
-                <Form.Item label="人员数量" name="number" >
-                    <InputNumber min={0} max={100} />
-                </Form.Item>
 
-                <Form.Item label="禁启用" name="status" >
-                    <Radio.Group >
-                        <Radio value={false}>禁用</Radio>
-                        <Radio value={true}>启用</Radio>
-                    </Radio.Group>
-                </Form.Item>
 
-                <Form.Item label="描述" name="content" >
-                    <Input.TextArea />
-                </Form.Item>
+                {/* <Form ref="form" onFinish={this.onSubmit} initialValues={{ status: true, number: 0 }} {...this.state.formLayout}>
 
-                <Form.Item >
-                    <Button type="primary" htmlType="submit" loading={this.state.loading}>确认</Button>
-                </Form.Item>
 
-            </Form>
+
+                    <Form.Item label="部门名称" name="name" >
+                        <Input />
+                    </Form.Item>
+
+                    <Form.Item label="人员数量" name="number" >
+                        <InputNumber min={0} max={100} />
+                    </Form.Item>
+
+                    <Form.Item label="禁启用" name="status" >
+                        <Radio.Group >
+                            <Radio value={false}>禁用</Radio>
+                            <Radio value={true}>启用</Radio>
+                        </Radio.Group>
+                    </Form.Item>
+
+                    <Form.Item label="描述" name="content" >
+                        <Input.TextArea />
+                    </Form.Item>
+
+                    <Form.Item >
+                        <Button type="primary" htmlType="submit" loading={this.state.loading}>确认</Button>
+                    </Form.Item>
+
+                </Form> */}
+            </Fragment>
         )
     }
 }
