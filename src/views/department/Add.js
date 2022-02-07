@@ -38,7 +38,7 @@ export default class DepartmentAdd extends Component {
                     required: true,
                     min: 0,
                     max: 100,
-                    style: { width: "200px" },
+
                     placeholder: "请输入人员数量"
                 },
                 {
@@ -102,7 +102,7 @@ export default class DepartmentAdd extends Component {
             this.setState({
                 loading: false
             })
-            this.refs.form.resetFields()
+
         }).catch(err => {
             this.setState({
                 loading: false

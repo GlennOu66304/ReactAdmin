@@ -48,8 +48,8 @@ export default class FormComponent extends Component {
     inputNumberElem = (item) => {
         const rules = this.rules(item)
         return (
-            <Form.Item label={item.label} name={item.name} key={item.name} min={item.min} max={item} placeholder={item.placeholder}>
-                <InputNumber />
+            <Form.Item label={item.label} name={item.name} key={item.name}>
+                <InputNumber min={item.min} max={item.max} />
             </Form.Item>
         )
     }
