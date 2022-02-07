@@ -44,7 +44,7 @@ export default class DepartmentAdd extends Component {
                 {
                     type: "Radio",
                     label: "禁启用",
-                    name: "statue",
+                    name: "status",
                     required: true,
                     options: [
                         { label: "禁用", value: false },
