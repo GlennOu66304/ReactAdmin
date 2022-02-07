@@ -11,17 +11,26 @@ export default class DepartmentAdd extends Component {
                 labelCol: { span: 2 },
                 wrapperCol: { span: 20 }
             },
+            formConfig: {
+                url: '/department/add',
+                initialValues: {
+                    number: 0,
+                    status: true
+
+                },
+                setFiledValue: "",
+            },
             formItem: [
                 //rule method1
                 // { type: "Input", label: "部门名称", name: "name", rules: [{ required: 'true', message: '请输入部门名称' }], },
                 //Rule Method2
                 { type: "Input", label: "部门名称", name: "name", required: true, rules: [{}, {}] },
-                {
-                    type: "Select", label: "部门名称aaa", name: "name", required: true, rules: [{}, {}], options: [
-                        { value: 1, label: '研发部' },
-                        { value: 2, label: '人事部 ' },
-                    ]
-                },
+                // {
+                //     type: "Select", label: "部门名称aaa", name: "name", required: true, rules: [{}, {}], options: [
+                //         { value: 1, label: '研发部' },
+                //         { value: 2, label: '人事部 ' },
+                //     ]
+                // },
                 {
                     type: "InputNumber",
                     label: "人员数量",
@@ -56,6 +65,7 @@ export default class DepartmentAdd extends Component {
 
     }
 
+
     componentDidMount() {
         // console.log(this.state)
         this.getDetailed()
@@ -71,8 +81,15 @@ export default class DepartmentAdd extends Component {
         Detailed({ id: this.state.id }).then(res => {
             // message.info(res.data.message)
 
+            this.setState({
+                formConfig: {
+                    ...this.state.formConfig,
+                    setFiledValue: res.data.data
+                }
+            })
+
             //add the inintial value to the form sections
-            this.refs.form.setFieldsValue(res.data.data)
+            // this.refs.form.setFieldsValue(res.data.data)
         })
     }
 
@@ -100,6 +117,7 @@ export default class DepartmentAdd extends Component {
         const requestData = value
         //Add Key-Value Pairs to JavaScript Objects
         requestData.id = this.state.id
+
         Edit(requestData).then(res => {
             const data = res.data
             message.info(data.message)
@@ -126,7 +144,7 @@ export default class DepartmentAdd extends Component {
     render() {
         return (
             <Fragment>
-                <FormComponent formItem={this.state.formItem} submit={this.onHandleSubmit} />
+                <FormComponent formConfig={this.state.formConfig} formItem={this.state.formItem} submit={this.onHandleSubmit} />
             </Fragment>
         )
     }

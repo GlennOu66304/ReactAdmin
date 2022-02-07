@@ -9,7 +9,10 @@ export default class FormComponent extends Component {
         }
         // console.log(this.props)
     }
+    componentWillReceiveProps({ formConfig }) {
+        this.refs.form.setFieldsValue(formConfig.setFiledValue)
 
+    }
 
     rules = (item) => {
         let rules = []
@@ -45,7 +48,7 @@ export default class FormComponent extends Component {
     inputNumberElem = (item) => {
         const rules = this.rules(item)
         return (
-            <Form.Item label={item.label} name={item.name} key={item.name}  >
+            <Form.Item label={item.label} name={item.name} key={item.name} min={item.min} max={item} placeholder={item.placeholder}>
                 <InputNumber />
             </Form.Item>
         )
@@ -116,7 +119,7 @@ export default class FormComponent extends Component {
 
         return (
 
-            <Form ref="form" onFinish={this.onSubmit} initialValues={{ status: true, number: 0 }} {...this.state.formLayout}>
+            <Form ref="form" onFinish={this.onSubmit} initialValues={this.props.formConfig.initialValues} {...this.state.formLayout}>
                 {this.initformItem()}
 
                 <Form.Item >
