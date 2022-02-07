@@ -106,7 +106,10 @@ export default class FormComponent extends Component {
     }
 
     onSubmit = (value) => {
-        console.log(value)
+        if (this.props.submit) {
+            this.props.submit(value)
+            return false
+        }
     }
 
     render() {

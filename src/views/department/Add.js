@@ -114,12 +114,19 @@ export default class DepartmentAdd extends Component {
         })
 
     }
-
+    onHandleSubmit = (value) => {
+        console.log(value)
+        if (this.state.id) {
+            this.onHandleEdit(value)
+        } else {
+            this.onHandleAdd(value)
+        }
+    }
 
     render() {
         return (
             <Fragment>
-                <FormComponent formItem={this.state.formItem} />
+                <FormComponent formItem={this.state.formItem} submit={this.onHandleSubmit} />
             </Fragment>
         )
     }
