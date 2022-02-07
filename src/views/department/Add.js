@@ -16,7 +16,12 @@ export default class DepartmentAdd extends Component {
                 // { type: "Input", label: "部门名称", name: "name", rules: [{ required: 'true', message: '请输入部门名称' }], },
                 //Rule Method2
                 { type: "Input", label: "部门名称", name: "name", required: true, rules: [{}, {}] },
-                { type: "Select", label: "部门名称aaa", name: "name", required: true, rules: [{}, {}] },
+                {
+                    type: "Select", label: "部门名称aaa", name: "name", required: true, rules: [{}, {}], options: [
+                        { value: 1, label: '研发部' },
+                        { value: 2, label: '人事部 ' },
+                    ]
+                },
                 {
                     type: "InputNumber",
                     label: "人员数量",
@@ -72,36 +77,6 @@ export default class DepartmentAdd extends Component {
     }
 
 
-    onSubmit = (value) => {
-
-        if (!value.name) {
-            message.error("请输入部门名称");
-            return false;
-        }
-
-        if (!value.number) {
-            message.error("请输入部门人员数量");
-            return false;
-        }
-
-
-        if (!value.content) {
-            message.error("请输入部门描述");
-            return false;
-        }
-
-        if (!value.status) {
-            message.error("请输入部门描述");
-            return false;
-        }
-
-        this.setState({
-            loading: true
-        })
-        //   use the tenary to decide whether to add or edit
-        this.state.id ? this.onHandleEdit(value) : this.onHandleAdd(value)
-
-    }
 
     onHandleAdd = (value) => {
         departmentApi(value).then(res => {
@@ -145,37 +120,6 @@ export default class DepartmentAdd extends Component {
         return (
             <Fragment>
                 <FormComponent formItem={this.state.formItem} />
-
-
-
-                {/* <Form ref="form" onFinish={this.onSubmit} initialValues={{ status: true, number: 0 }} {...this.state.formLayout}>
-
-
-
-                    <Form.Item label="部门名称" name="name" >
-                        <Input />
-                    </Form.Item>
-
-                    <Form.Item label="人员数量" name="number" >
-                        <InputNumber min={0} max={100} />
-                    </Form.Item>
-
-                    <Form.Item label="禁启用" name="status" >
-                        <Radio.Group >
-                            <Radio value={false}>禁用</Radio>
-                            <Radio value={true}>启用</Radio>
-                        </Radio.Group>
-                    </Form.Item>
-
-                    <Form.Item label="描述" name="content" >
-                        <Input.TextArea />
-                    </Form.Item>
-
-                    <Form.Item >
-                        <Button type="primary" htmlType="submit" loading={this.state.loading}>确认</Button>
-                    </Form.Item>
-
-                </Form> */}
             </Fragment>
         )
     }

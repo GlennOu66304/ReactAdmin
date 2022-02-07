@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
-import { Form, Input, Button, InputNumber, Radio, Select, Option } from 'antd';
-
+import { Form, Input, Button, InputNumber, Radio, Select } from 'antd';
+const { Option } = Select;
 export default class FormComponent extends Component {
 
     constructor(props) {
@@ -22,7 +22,7 @@ export default class FormComponent extends Component {
         if (item.rules && item.rules.length > 0) {
             rules = rules.concat(item.rules)
         }
-        console.log(rules)
+        // console.log(rules)
         return rules
 
     }
@@ -55,7 +55,15 @@ export default class FormComponent extends Component {
         const rules = this.rules(item)
         return (
             <Form.Item label={item.label} name={item.name} key={item.name} rules={rules} >
-                <Input />
+
+                <Select>
+                    {item.options && item.options.map(item => {
+                        return <Option value={item.value}>{item.label}</Option>
+                    })
+
+                    }
+
+                </Select>
 
             </Form.Item>
         )
