@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react'
 import { message } from 'antd';
 import { departmentApi, Detailed, Edit } from '../../api/department';
 import FormComponent from '../../components/form/index';
+import Store from '../../store/index';
 export default class DepartmentAdd extends Component {
     constructor(props) {
         super(props)
@@ -70,6 +71,7 @@ export default class DepartmentAdd extends Component {
         // console.log(this.state)
         this.getDetailed()
         // console.log(this.props.location.state.id)
+        console.log(Store.getState())
     }
 
     //load the id data from the server
