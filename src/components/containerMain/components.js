@@ -1,5 +1,7 @@
 const files = require.context("../../views/", true, /\.js$/)
+
 const Components = []
+
 files.keys().map(key => {
     if (key.includes('./index/') || key.includes('./login/')) {
         return false
