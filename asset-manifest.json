@@ -1,0 +1,25 @@
+{
+  "files": {
+    "main.css": "/ReactAdmin/static/css/main.b98c08b4.chunk.css",
+    "main.js": "/ReactAdmin/static/js/main.30f629fb.chunk.js",
+    "main.js.map": "/ReactAdmin/static/js/main.30f629fb.chunk.js.map",
+    "runtime-main.js": "/ReactAdmin/static/js/runtime-main.dd927e5a.js",
+    "runtime-main.js.map": "/ReactAdmin/static/js/runtime-main.dd927e5a.js.map",
+    "static/css/2.75f463fc.chunk.css": "/ReactAdmin/static/css/2.75f463fc.chunk.css",
+    "static/js/2.6b1ba029.chunk.js": "/ReactAdmin/static/js/2.6b1ba029.chunk.js",
+    "static/js/2.6b1ba029.chunk.js.map": "/ReactAdmin/static/js/2.6b1ba029.chunk.js.map",
+    "static/js/3.3cbd77ba.chunk.js": "/ReactAdmin/static/js/3.3cbd77ba.chunk.js",
+    "static/js/3.3cbd77ba.chunk.js.map": "/ReactAdmin/static/js/3.3cbd77ba.chunk.js.map",
+    "index.html": "/ReactAdmin/index.html",
+    "static/css/2.75f463fc.chunk.css.map": "/ReactAdmin/static/css/2.75f463fc.chunk.css.map",
+    "static/css/main.b98c08b4.chunk.css.map": "/ReactAdmin/static/css/main.b98c08b4.chunk.css.map",
+    "static/js/2.6b1ba029.chunk.js.LICENSE.txt": "/ReactAdmin/static/js/2.6b1ba029.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.dd927e5a.js",
+    "static/css/2.75f463fc.chunk.css",
+    "static/js/2.6b1ba029.chunk.js",
+    "static/css/main.b98c08b4.chunk.css",
+    "static/js/main.30f629fb.chunk.js"
+  ]
+}
